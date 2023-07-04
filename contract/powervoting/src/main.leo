@@ -2,6 +2,14 @@
 // The `program` scope defines the data types, functions, and state associated with the `powervoting` program.
 program powervoting.aleo {
 
+    // power voting token
+    record Token {
+        owner: address,
+        name: field,        // token name, power voting token
+        symbol: field,      // token symbol, PVT
+        amount: u64,        // voting power, default is 1u64
+    }
+
     // current proposals id, like auto-increament id in mysql  // 2074281269322187893875field => current proposal id
     // use 2074281269322187893875field (means "proposals" in string) as the fixed key here
     // TODO: use array instead of mapping when possible
@@ -40,31 +48,54 @@ program powervoting.aleo {
     // voting power will be private, store them into record.
     record Power {
         owner: address,
-        gates: u64,
         power: u64,             // voting power, default is 1u64
+        withdrawable_block_height: u32, // withdrawable block height
     }
 
 
-    // get voting power, private action
+    // get power voting token
+    transition mint_token(amount: u64) -> Token {
+        return Token {
+            owner: self.caller,
+            name: 7006912922137281764648909451784002770527598field,   // stands for Power Voting Token string
+            symbol: 5264980field,   // stands for PVT string
+            amount: amount,
+        };
+    }
+
+    // get voting power for voting, private action
     transition mint_power() -> Power {
-        // TODO: get voting power from pledge
         return Power {
             owner: self.caller,
-            gates: 0u64,
-            power: 1u64,    //defaut 1 power
+            power: 1u64,    //  defaut 1 power
+            withdrawable_block_height: 0u32,    // default can be withdrawed at any time.
         };
     }
 
     // get voting power for dao management, private action
-    // credits: retrieved from Soter wallet, used as voting power here for dao
-    transition mint_power_dao(credits: u64) -> Power {
-        // TODO: get voting power from pledge
+    transition mint_power_by_token(token: Token, withdrawable_block_height: u32) -> Power {
         return Power {
             owner: self.caller,
-            gates: 0u64,
-            power: credits,
+            power: token.amount,
+            withdrawable_block_height: withdrawable_block_height,
         };
     }
+
+    // withdraw token from voting power, private action
+    transition withdraw_token_from_power(power: Power) -> Token {
+        return Token {
+            owner: self.caller,
+            name: 7006912922137281764648909451784002770527598field,     // stands for Power Voting Token string
+            symbol: 5264980field,   // stands for PVT string
+            amount: power.power,
+        } then finalize(power);
+    }
+
+    // finalize the withdraw feature, if current block height is smaller than power withdrawble_block_height, withdraw will be failed.
+    finalize withdraw_token_from_power(power: Power) {
+        assert(power.withdrawable_block_height <= block.height);
+    }
+
 
     // propose a new proposal, public action.
     transition propose(public proposal: Proposal) {
@@ -73,7 +104,7 @@ program powervoting.aleo {
     }
 
     // store proposal into mapping
-    finalize propose( public title: field, public content: field, public options: field, public vote_type: u8, public expieration: field) {
+    finalize propose(public title: field, public content: field, public options: field, public vote_type: u8, public expieration: field) {
         // generate proposal
         let proposal: Proposal = Proposal {
             title,
@@ -84,7 +115,7 @@ program powervoting.aleo {
         };
         let proposal_id_key: field = 2074281269322187893875field;   // means "proposals" in string
         // get proposal id or init with 0
-        let pid: u64 = Mapping::get_or_init(proposal_ids, proposal_id_key, 0u64);
+        let pid: u64 = Mapping::get_or_use(proposal_ids, proposal_id_key, 0u64);
         // store proposal into proposals mapping
         Mapping::set(proposals, pid, proposal);
         // update proposal id
@@ -119,7 +150,7 @@ program powervoting.aleo {
         // store vote info into mapping
         Mapping::set(votes, pvid, vote_info);
         // update vote id
-        let vid: u64 = Mapping::get_or_init(vote_ids, pid, 0u64);
+        let vid: u64 = Mapping::get_or_use(vote_ids, pid, 0u64);
         Mapping::set(vote_ids, pid, vid + 1u64);
     }
 
