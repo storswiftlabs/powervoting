@@ -2,7 +2,7 @@
 
 Power Voting dApp utilizes ZKP and timelock to achieve fair and private voting. Before the voting deadline, no one’s voting results will be seen by others, and the voting process will not be disturbed by other participant’s voting results. After the voting deadline, anyone can count the votes in a decentralized manner, and the results of the counting will executed and stored by smart contract and will not be manipulated by any centralized organization or individual. 
 
-Power Voting dApp has already supported Aleo, Ethereum and Filcoin chains,  aims to become the infrastructure of DAO governance.
+Power Voting dApp has already supported Aleo, Ethereum and Filecoin chains,  aims to become the infrastructure of DAO governance.
 
 ## 2. Problem
 
