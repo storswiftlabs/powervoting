@@ -1,0 +1,56 @@
+@background-color: #273141;
+@border-color: #313D4F;
+@content-background-color: #212B3C;
+@text-color: #7F8FA3;
+
+.custom-html-style {
+  color: @text-color;
+}
+
+.rc-md-editor {
+  .rc-md-navigation {
+    background: @background-color;
+    border-bottom: 1px solid @border-color;
+  }
+  color: @text-color;
+  background: @background-color;
+  border: 1px solid @border-color;
+  .editor-container {
+    .sec-md {
+      border: none;
+      .input {
+        color: @text-color;
+        background: @content-background-color;
+      }
+      textarea {
+        &::-webkit-scrollbar {
+          width: 20px;
+        }
+        &::-webkit-scrollbar-track {
+          background: rgb(27, 35, 49);
+        }
+        &::-webkit-scrollbar-thumb {
+          background: @background-color;
+        }
+      }
+    }
+    .sec-html{
+      background: @content-background-color;
+      border-right: 1px solid @border-color;
+      overflow-x: hidden;
+      .html-wrap {
+        overflow-x: hidden;
+        word-break: break-word;
+        &::-webkit-scrollbar {
+          width: 20px;
+        }
+        &::-webkit-scrollbar-track {
+          background: rgb(27, 35, 49);
+        }
+        &::-webkit-scrollbar-thumb {
+          background: @background-color;
+        }
+      }
+    }
+  }
+}

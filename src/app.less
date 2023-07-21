@@ -1,0 +1,44 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  color: #7f8fa3;
+  header {
+    padding: 0 2rem;
+    .logo {
+      height: 64px;
+    }
+  }
+  .content {
+    flex: 1;
+    min-height: calc(100vh - 256px);
+    .voting,
+    .voting-result {
+      .border,
+      .border-skin-border,
+      .border-md,
+      .border-lg,
+      .border-b,
+      .border-t,
+      .border-r,
+      .border-l {
+        border-color: #313d4f;
+      }
+    }
+  }
+}
+
+.recordsTab
+  :where(.css-dev-only-do-not-override-1sn0ohr).ant-list
+  .ant-list-item {
+  border-block-end: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+}
+.border-\[\#313D4F\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(49 61 79 / var(--tw-border-opacity));
+}
+
+
