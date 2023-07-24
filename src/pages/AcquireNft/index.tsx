@@ -52,7 +52,7 @@ export default function AcquireNft() {
       const pidRes = await getVotingList();
       console.log(pidRes);
       const resultList: any = await Promise.all(
-        pidRes.map((item: any) => axios.get(`/api/get/${item.id}`))
+        pidRes.map((item: any) => axios.get(`http://103.1.65.126:9999/get/${item.id}`))
       );
       const ids = resultList.map((res: any, index: number) => {
         return {

@@ -24,14 +24,14 @@ module.exports = {
     plugins: [new TsconfigPathsPlugin({/* options: see below */})]
   },
   devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://192.168.10.150:9999',
-        pathRewrite: { '^/api': '' },
-        secure: false,
-        changeOrigin: true,
-      },
-    },
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://103.1.65.126:9999',
+    //     pathRewrite: { '^/api': '' },
+    //     secure: false,
+    //     changeOrigin: true,
+    //   },
+    // },
     static: path.join(__dirname, 'public'),
     port: 3001,
     open: true,

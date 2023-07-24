@@ -101,7 +101,7 @@ const CreatePoll = () => {
       };
       console.log(_values);
       const cid = await nftStorage(_values);
-      const { data } = await axios.post(`/api/update`, { text: cid });
+      const { data } = await axios.post(`http://103.1.65.126:9999/update`, { text: cid });
       console.log('create vote params: ' + data?.id);
       return false;
       if (data?.id) {

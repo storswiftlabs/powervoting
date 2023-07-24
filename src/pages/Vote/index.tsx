@@ -61,12 +61,12 @@ const Vote = () => {
       )
       const resultList = await Promise.all(
         detailIds.map(async (id) => {
-          const res = await axios.get(`/api/get/${id}`);
+          const res = await axios.get(`http://103.1.65.126:9999/get/${id}`);
           return res.data.data;
         }))
       const countOption = handleOptionCount(resultList);
       const strCountOption = countOption.map(obj => `${obj.key}=${obj.value}`).toString();
-      const { data } = await axios.post(`/api/update`, { text: strCountOption });
+      const { data } = await axios.post(`http://103.1.65.126:9999/update`, { text: strCountOption });
       console.log('count vote params: ' + state.pid, data.id);
       message.success("Waiting for confirmation of transactions", 3);
       // @ts-ignore
@@ -105,7 +105,7 @@ const Vote = () => {
       const voteCount = res?.slice(0, -idUnitLen);
       const pVid = `${pid}-${voteCount?.slice(0, -idUnitLen) || '0'}`;
       const option = Array.isArray(values) ? values.filter(item => item.option).join('&') : values.option.toString();
-      const { data } = await axios.post(`/api/update`, { text: option });
+      const { data } = await axios.post(`http://103.1.65.126:9999/update`, { text: option });
       console.log('vote params: ' + pid, encodeBs58(pVid), data.id);
       if (connected) {
         // @ts-ignore

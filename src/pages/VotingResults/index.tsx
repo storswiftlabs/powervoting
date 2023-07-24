@@ -25,7 +25,7 @@ const VotingResults = () => {
     if (account) {
       // @ts-ignore
       isFinishVote(state.pid)?.then(async (res) => {
-        const { data } = await axios.get(`/api/get/${res?.slice(0, -fieldLen)}`);  //每一项投票的pid 取调取数据库获取具体数据
+        const { data } = await axios.get(`http://103.1.65.126:9999/get/${res?.slice(0, -fieldLen)}`);  //每一项投票的pid 取调取数据库获取具体数据
         const result = data.data.text.split(",").reduce((acc: any, curr: any) => {
           const [key, value] = curr.split("=");
           acc.push({ key, value: Number(value) });
