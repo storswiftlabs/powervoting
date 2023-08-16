@@ -99,18 +99,14 @@ const CreatePoll = () => {
         option: values.option.map((item: any) => item.value),
         Address: state.currentAddress,
       };
-      console.log(_values);
       const cid = await nftStorage(_values);
       const { data } = await axios.post(`http://103.1.65.126:9999/update`, { text: cid });
-      console.log('create vote params: ' + data?.id);
-      return false;
+
       if (data?.id) {
         message.success("Waiting for the transaction to be chained!")
-        // console.log(cid)
         if (state.currentAddress) {
           // @ts-ignore
           const res = await createPropose(data?.id);
-          // console.log(res, "res")
           if (res) {
             setLoading(false)
             message.success("Preparing to wind the chain!");
@@ -294,86 +290,6 @@ const CreatePoll = () => {
   }, [errors])
 
   return (
-    /*<div>
-      <Form
-        layout="vertical"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        labelCol={{ span: 12 }}
-        wrapperCol={{ span: 24 }}
-      >
-        <Form.Item
-          name="Name"
-          label="Name"
-          rules={[{ required: true, message: "Please enter the name!" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="Description"
-          label="Description"
-          rules={[{ required: true, message: "Please enter the Description!" }]}
-        >
-          <TextArea rows={4} />
-        </Form.Item>
-
-        <div
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            setOpen(true)
-          }}
-        >
-          Add Option <PlusCircleOutlined />
-        </div>
-        <Form.Item label="options:">
-          <Radio.Group>
-            <Space direction="vertical">
-              {radio.map((item: any, index: any) => {
-                return <div key={index}>{" " + item}</div>
-              })}
-            </Space>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item
-          name={"Time"}
-          label="Closing Time"
-          rules={[
-            {
-              required: true,
-              message: "Please enter your Number of Closing Time!",
-            },
-          ]}
-        >
-          <DatePicker
-            showTime={{ format: "HH:mm" }}
-            format="YYYY-MM-DD HH:mm"
-            // disabledDate={disabledDate}
-          />
-        </Form.Item>
-
-        <Form.Item>
-          <Button
-            loading={loading}
-            htmlType="submit"
-            style={{ background: "#e99d42", width: "100%" }}
-          >
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-
-      <>
-        <CollectionCreateForm
-          open={open}
-          onCreate={onCreate}
-          onCancel={() => {
-            setOpen(false)
-          }}
-          loading={loading}
-        />
-      </>
-    </div>*/
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className='flow-root space-y-8'>
         <Table title='Create A Proposal' list={list} />

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react"
 import { Alert, Spin } from "antd"
 import ListFilter from "../../components/ListFilter"
 import { useNavigate } from "react-router-dom";
-import { walletConnected, getVotingList, isFinishVote } from '../../hooks/aleo';
+import {walletConnected, getVotingList, isFinishVote, delectAccount, connectWalletPlugin} from '../../hooks/aleo';
 // @ts-ignore
 import { encodeBs58, decodeBs58, ALL_STATUS, IN_PROGRESS_STATUS, VOTE_COUNTING_STATUS, COMPLETED_STATUS } from '../../utils';
 import axios from "axios";
 // @ts-ignore
 import nftStorage from "../../utils/storeNFT.js"
+import {useStore} from "../../lib/context";
 
 const voteStatusList = [
   {
@@ -29,13 +30,15 @@ const voteStatusList = [
 ]
 
 export default function Home() {
-  const navigate = useNavigate()
-  const [originVotingList, setOriginVotingList] = useState<any>([])
-  const [votingList, setVotingList] = useState<any>([])
-  const [visible, setVisible] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [state, dispatch] = useStore();
 
-  const [voteStatus, setVoteStatus] = useState(0)
+  const navigate = useNavigate();
+  const [originVotingList, setOriginVotingList] = useState<any>([]);
+  const [votingList, setVotingList] = useState<any>([]);
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const [voteStatus, setVoteStatus] = useState(0);
 
   useEffect(() => {
     getIpfsCid()
@@ -44,7 +47,6 @@ export default function Home() {
   const getIpfsCid = async () => {
     if (getVotingList) {
       const pidRes = await getVotingList();
-      console.log(pidRes);
       const resultList: any = await Promise.all(
         pidRes.map((item: any) => axios.get(`http://103.1.65.126:9999/get/${item.id}`))
       );
@@ -70,7 +72,6 @@ export default function Home() {
       const responses: any = await Promise.all(
         ipfsUrls.map((url: string) => axios.get(url))
       )
-      console.log(responses)
       const results = []
       for (let i = 0; i < responses.length; i++) {
         if (!responses[i].data.string) {
@@ -96,7 +97,6 @@ export default function Home() {
         }
 
       }
-      console.log(results);
       return results
     } catch (error) {
       console.error(error)
@@ -127,13 +127,8 @@ export default function Home() {
     if (isConnected) {
       params ? navigate(path, params) : navigate(path)
     } else {
+      dispatch({ type: "walletConnected", value: isConnected });
     }
-  }
-
-  const closeMessage = () => {
-    setTimeout(() => {
-      setVisible(false)
-    }, 10000)
   }
 
   /**
@@ -141,7 +136,6 @@ export default function Home() {
    * @param item
    */
   const handleJump = (item: any) => {
-    console.log(item);
     const router = `/${item.voteStatus === COMPLETED_STATUS ? "votingResults" : "vote"}/${item.pid}`;
     handlerNavigate(router, { state: item });
   }

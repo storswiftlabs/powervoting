@@ -33,7 +33,7 @@ module.exports = {
     //   },
     // },
     static: path.join(__dirname, 'public'),
-    port: 3001,
+    port: 3000,
     open: true,
     historyApiFallback: true
   },

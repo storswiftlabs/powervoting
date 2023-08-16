@@ -138,18 +138,6 @@ export const getDetail = async (id: number) => {
   return await fetch(api).then((res) => res.json());
 }
 
-export const getParsedDetail = async (id: number) => {
-  const res = await getDetail(id)
-  return parseDetail(res)
-}
-
-export const getRecord = async () => {
-  const param = {
-    program: programID
-  }
-  return await queryRecords(param)
-}
-
 export const getVoteId = async (vote_ids: string) => {
   const mappingName = "vote_ids"
   const key = `${vote_ids}u64`;

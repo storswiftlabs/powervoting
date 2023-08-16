@@ -53,7 +53,7 @@ const VotingResults = () => {
           </button>
         </div>
         <div className='px-3 md:px-0'>
-          <h1 className='mbreak-words text-3xl text-white leading-12 mb-6'>
+          <h1 className='break-words text-3xl text-white leading-12 mb-6'>
             {state.Name}
           </h1>
           <div className='mb-6 flex justify-between'>

@@ -50,7 +50,6 @@ export default function AcquireNft() {
   const getIpfsCid = async () => {
     if (getVotingList) {
       const pidRes = await getVotingList();
-      console.log(pidRes);
       const resultList: any = await Promise.all(
         pidRes.map((item: any) => axios.get(`http://103.1.65.126:9999/get/${item.id}`))
       );
@@ -76,7 +75,6 @@ export default function AcquireNft() {
       const responses: any = await Promise.all(
         ipfsUrls.map((url: string) => axios.get(url))
       )
-      console.log(responses)
       const results = []
       for (let i = 0; i < responses.length; i++) {
         if (!responses[i].data.string) {
@@ -102,7 +100,6 @@ export default function AcquireNft() {
         }
 
       }
-      console.log(results);
       return results
     } catch (error) {
       console.error(error)
@@ -142,7 +139,6 @@ export default function AcquireNft() {
   }
 
   const handleJump = (item: any) => {
-    console.log(item);
     const router = `/${item.voteStatus === COMPLETED_STATUS ? "votingResults" : "vote"}/${item.pid}`;
     handlerNavigate(router, { state: { ...item, isNft: true } });
   }

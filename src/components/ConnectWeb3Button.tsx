@@ -44,6 +44,7 @@ export const ConnectWeb3Button = (props: any) => {
 
   async function setAddressData() {
     let account = await walletAccount();
+    console.log(account);
     if (account && account.address) {
       dispatch({ type: "currentAddress", value: account.address });
     }

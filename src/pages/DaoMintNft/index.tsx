@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { Tooltip, message } from 'antd';
 import Table from "src/components/Table";
 import { RadioGroup } from '@headlessui/react';
 import classNames from 'classnames';
-import { walletConnected, getRecords, mintPowerVotingApi } from "../../hooks/aleo";
+import { walletConnected, getRecords } from "../../hooks/aleo";
+
 // @ts-ignore
 import { MULTI_VOTE } from '../../utils';
 import axios from 'axios';
@@ -55,12 +56,10 @@ function index() {
       return false;
     } else {
       const { data } = await axios.get('https://vm.aleo.org/api/testnet3/latest/height');
-      console.log(value);
-      console.log(data);
-      return false;
-      const res = await mintPowerVotingApi(value.option, data + 100);
+
+      // const res = await mintPowerVotingApi(value.option, data + 100);
       //todo 根据 blockHeight 获取余额
-      handlerNavigate(`/vote/${state.pid}`, { state: { ...state, isNft: false, balance: data + 100} });
+      handlerNavigate(`/vote/${state.pid}`, { state: { ...state, isNft: false, balance: 100} });
     }
 
   }
