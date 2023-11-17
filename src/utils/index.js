@@ -11,8 +11,8 @@ export const MULTI_VOTE = 2
 
 const CHAR_MAP =
   "123456789" + "ABCDEFGHJKLMNPQRSTUVWXYZ" + "abcdefghijkmnopqrstuvwxyz";
-export const host = "https://vm.aleo.org/api/testnet3/program";
-export const programID = "power_voting_v1_0.aleo";
+export const host = "https://api.explorer.aleo.org/v1/testnet3/program";
+export const programID = "power_voting_v0_2.aleo";
 
 export const encodeBs58 = (str) => {
   const base58str = stringToBase58(str);
